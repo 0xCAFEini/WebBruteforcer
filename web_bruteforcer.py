@@ -21,13 +21,13 @@ def try_passwords(driver, username_name, password_name, username, successfulMess
             try:             
                 driver.find_element(By.NAME, username_name).send_keys(username)
             except:
-                print(f'{Fore.RED}[!] Error: Element not found - {username_name}')
+                print(f'{Fore.RED}[!] Error: Element not found - {username_name} {Fore.WHITE}')
                 sys.exit(1)
                 
             try:                    
                 driver.find_element(By.NAME, password_name).send_keys(password)
             except:
-                print(f'{Fore.RED}[!] Error: Element not found - {password_name}')
+                print(f'{Fore.RED}[!] Error: Element not found - {password_name} {Fore.WHITE}')
                 sys.exit(1)
 
             try:

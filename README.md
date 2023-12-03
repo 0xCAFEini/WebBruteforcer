@@ -2,6 +2,12 @@
 
 WebBruteforcer uses Selenium to perform password brute-forcing on any website where the username and password fields are located on the same page.
 
+## Requirements
+
+* Python 3.10 or later
+* Chrome, Firefox, or Edge browsers
+* Selenium and Colorama Python modules
+
 ## Usage
 
 Git clone this repository
@@ -10,11 +16,12 @@ Git clone this repository
 git clone https://github.com/yannawr/WebBruteforcer && cd WebBruteforcer
 ```
 
-Install the requirements (Selenium and Colorama)
+Install Python modules
 
 ```
 pip install -r requirements.txt
 ```
+Usage (--help or -h):
 
 ```
 python web_bruteforcer.py <login_url> <username_name> <password_name> <username> <message> <browser> <wordlist>

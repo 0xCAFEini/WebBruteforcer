@@ -13,7 +13,7 @@ WebBruteforcer uses Selenium to perform password brute-forcing on any website wh
 Git clone this repository
 
 ```
-git clone https://github.com/yannawr/WebBruteforcer && cd WebBruteforcer
+git clone https://github.com/0xCAFEini/WebBruteforcer && cd WebBruteforcer
 ```
 
 Install Python modules
